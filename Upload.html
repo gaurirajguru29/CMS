@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Document Upload</title>
+<style>
+  body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        /* background: #051528; */
+        background-color: #000000;
+        margin: 20px;
+     
+    }
+    
+    form {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    label {
+        display: block;
+        margin-top: 10px;
+    }
+    
+    input,
+    select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+    
+    button {
+        background-color: #007BFF;
+        color: #fff;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    h2,label {
+        color: #fff;
+    }
+    #pdfInput {
+        color: #fff; 
+    }
+  
+    
+
+</style>
+</head>
+<body>
+  <form id="uploadForm" enctype="multipart/form-data">
+<h2>Student Document Upload </h2>
+
+<label for="studentName">Student Name:</label>
+        <input type="text" id="studentName" name="studentName" required>
+
+        <label for="documentType">Document Type:</label>
+        <select id="documentType" name="documentType" required>
+            <option value="transcript">Transcript</option>
+            <option value="resume">Resume</option>
+            <!-- Add more document types as needed -->
+        </select>
+
+        <label for="documentFile">Select Document (PDF only):</label>
+<input type="file" id="pdfInput" accept=".pdf"><br><br>
+<button onclick="savePDF()">Upload</button>
+</form>
+
+<script>
+function savePDF() {
+  const pdfInput = document.getElementById('pdfInput');
+  
+  if (pdfInput.files.length > 0) {
+    const pdfFile = pdfInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+      const pdfData = event.target.result;
+      saveAs(pdfData, pdfFile.name);
+    };
+
+    reader.readAsDataURL(pdfFile);
+  } else {
+    alert('Please select a PDF file to upload.');
+  }
+}
+
+function saveAs(dataURL, fileName) {
+  const a = document.createElement('a');
+  a.href = dataURL;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.style.display = 'none';
+  a.click();
+  document.body.removeChild(a);
+}
+</script>
+</body>
+</html>
